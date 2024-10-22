@@ -8,6 +8,7 @@ pdflatex <document>.tex <document>.pdf
 ## Outline
 
 High-level outline of the final report. Should contain:
-    * Sections of required topics
-        * Brief descriptions for each
-    * Figures (Images, Charts, other visual documentations)
+
+* Sections of required topics
+    * Brief descriptions for each
+* Figures (Images, Charts, other visual documentations)
