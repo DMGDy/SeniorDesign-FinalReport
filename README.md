@@ -1,8 +1,16 @@
 # Senior Design Final Report
 
-This document will be compiled using `pdflatex` to compile a `.tex` file to a `.pdf` document:
+This document will be compiled using `pdflatex` to compile a `.tex` file to a `.pdf` document.
+A build script has been written to build certain documents with their propper name. All
+compiled .pdfs are under `docs/`:
 ```
-pdflatex <document>.tex <document>.pdf
+chmod +x build.sh
+./build.sh <draft>
+```
+For example:
+
+```
+./build.sh Outline
 ```
 
 ## Outline
