@@ -13,7 +13,7 @@ FEXT=".tex"
 
 
 case "$1" in 
-    "Outline")
+    "outline")
         pdflatex -output-directory=${DOCS_DIR} \
           -jobname=${FNAME}${OUTLINE} outline/${FNAME}${OUTLINE}${FEXT}
         # clean unecessary files
