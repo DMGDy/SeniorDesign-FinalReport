@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/131.0" version="24.8.0">
   <diagram name="Page-1" id="qPB1J2QfBsX45vZSyjPc">
-    <mxGraphModel dx="2382" dy="1172" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+    <mxGraphModel dx="1548" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -49,8 +49,8 @@
             <mxPoint x="640" y="430" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="6hf2DGCrWJqTCBCjmLNf-34" value="&lt;font color=&quot;#5e5c64&quot;&gt;JSON Data in GET Request&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontColor=#7EA6E0;labelBackgroundColor=default;" vertex="1" parent="1">
-          <mxGeometry x="360" y="380" width="270" height="40" as="geometry" />
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-34" value="&lt;font&gt;JSON Data in POST Request&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontColor=default;labelBackgroundColor=none;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="350" y="380" width="290" height="40" as="geometry" />
         </mxCell>
         <mxCell id="6hf2DGCrWJqTCBCjmLNf-35" value="Initialize IPC and validate communication is established" style="whiteSpace=wrap;html=1;fontSize=20;fontFamily=Courier New;" vertex="1" parent="1">
           <mxGeometry x="1245" y="375" width="310" height="100" as="geometry" />
@@ -61,14 +61,41 @@
             <mxPoint x="1120" y="430" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="6hf2DGCrWJqTCBCjmLNf-41" value="&lt;font color=&quot;#5e5c64&quot;&gt;Load associated firmware&lt;br&gt;Device&lt;br&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontColor=#7EA6E0;labelBackgroundColor=default;" vertex="1" parent="1">
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-41" value="&lt;font&gt;Load associated firmware&lt;br&gt;Device&lt;br&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontColor=default;labelBackgroundColor=none;fontStyle=1;textShadow=1;" vertex="1" parent="1">
           <mxGeometry x="970" y="360" width="250" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="6hf2DGCrWJqTCBCjmLNf-42" value="&lt;div&gt;&lt;font color=&quot;#9ac7bf&quot;&gt;Create /dev/ttyRPMSG0&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#9ac7bf&quot;&gt;virtual device for&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#9ac7bf&quot;&gt;communication&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontColor=#7EA6E0;labelBackgroundColor=default;" vertex="1" parent="1">
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-42" value="&lt;div&gt;&lt;font&gt;Create /dev/ttyRPMSG0&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;virtual device for&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;communication&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontColor=#000033;labelBackgroundColor=none;fontStyle=1;textShadow=1;" vertex="1" parent="1">
           <mxGeometry x="980" y="430" width="240" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="6hf2DGCrWJqTCBCjmLNf-43" value="Send State of server; &lt;br&gt;device testing has started" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontColor=#7EA6E0;labelBackgroundColor=default;" vertex="1" parent="1">
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-43" value="Send State of server; &lt;br&gt;device testing has started" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontColor=#000033;labelBackgroundColor=none;fontStyle=1;textShadow=1;" vertex="1" parent="1">
           <mxGeometry x="370" y="445" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-44" value="Update UI to notify user that test has began and application is waiting for test results" style="whiteSpace=wrap;html=1;fontSize=20;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="40" y="560" width="310" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-45" value="" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=3;fillColor=#d0cee2;strokeColor=#56517e;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="6hf2DGCrWJqTCBCjmLNf-50">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="350" y="614.71" as="sourcePoint" />
+            <mxPoint x="625" y="615.03" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-46" value="&lt;font&gt;GET request to results &lt;br&gt;of test&lt;br&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontColor=default;labelBackgroundColor=none;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="395" y="550" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-50" value="Ping Server and await results of the test" style="whiteSpace=wrap;html=1;fontSize=20;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="645" y="565" width="310" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-52" value="" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;strokeWidth=3;fillColor=#fad9d5;strokeColor=#ae4132;" edge="1" parent="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="955" y="610" as="sourcePoint" />
+            <mxPoint x="1245" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-53" value="&lt;div&gt;&lt;font&gt;Send &#39;ping&#39; every 500ms&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;for test status until&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;pass/fail&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fillColor=none;fontSize=20;labelBackgroundColor=none;fontStyle=1;fontColor=default;textShadow=1;labelBorderColor=none;" vertex="1" parent="1">
+          <mxGeometry x="975" y="520" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="6hf2DGCrWJqTCBCjmLNf-55" value="Notify Server that test is on going or give a &quot;Pass&quot; or &quot;Fail&quot; result" style="whiteSpace=wrap;html=1;fontSize=20;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="565" width="310" height="100" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
