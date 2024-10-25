@@ -1,26 +1,14 @@
 #!/usr/bin/env sh
 
-set -xe 
+docs_dir=docs
+root=$PWD
+f_name="FinalReport-"
 
-DOCS_DIR=docs
+if ! cd "$1" ;then
+  echo "Usage: $0 {directory with .tex document to compile, ie \"outline\"}"
+  exit 1
+fi
 
-OUTLINE="Outline"
-FNAME="FinalReport-"
-FEXT=".tex"
-
-
-
-
-
-case "$1" in 
-    "outline")
-        pdflatex -output-directory=${DOCS_DIR} \
-          -jobname=${FNAME}${OUTLINE} outline/${FNAME}${OUTLINE}${FEXT}
-        # clean unecessary files
-        find ${DOCS_DIR} -type f ! -name "*.pdf" -delete
-        ;;
-    *)
-        echo "Usage: $0 {Outline}"
-        exit 1
-        ;;
-esac
+pdflatex -output-directory="${root}"/"${docs_dir}" \
+  -jobname=${f_name}"$1" \
+  "${f_name}$1.tex"
