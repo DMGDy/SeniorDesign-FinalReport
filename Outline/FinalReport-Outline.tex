@@ -110,36 +110,108 @@
 
 \tableofcontents
 \newpage
-\doublespacing
 %----------------------------------------------------------------------------------------
 %	PAPER BEGINS WITH ABSTRACT
 %----------------------------------------------------------------------------------------
 
 
 \section{Abstract}
+\begin{itemize}
+  \item Summarize project need
+    \begin{itemize}
+      \item Ease of testing devices
+      \item Technicians and engineers benefit 
+    \end{itemize}
+  \item Summarize project architecture 
+    \begin{itemize}
+      \item Custom PCB for device interfacing
+      \item Using ARM Cortex-M4 for testing devices
+      \item Embedded Linux running on ARM Cortex-A7
+      \item Rust written Server to communicate to web-application and Cortex-M4 firmware
+      \item Web application using WebAssembly for simple user interaction that provides a CSV
+    \end{itemize}
+  \item Summarize results 
+    \begin{itemize}
+      \item Measurements by X firmware had x\% accuracy 
+      \item Total costs are X
+    \end{itemize}
+\end{itemize}
 
 %----------------------------------------------------------------------------------------
 %	OVERVIEW STARTING WITH INTRODUCTION
 %----------------------------------------------------------------------------------------
 \section{Introduction}
+Describe Purpose and Scope of project
+
+\begin{itemize}
+  \item Project aims to simplify testing proceedures at ZF
+  \item Utilize industry technology such as ARM processors and microcontrollers
+    as well as Yocto Project for embedded Linux
+  \item Use emerging technologies to solve real world problems (Rust programming 
+    language and web assembly)
+  \item Goal to have a functioning project.
+\end{itemize}
 
 
 %----------------------------------------------------------------------------------------
 %	DISCUSSION PORTION
 %----------------------------------------------------------------------------------------
 \section{Discussion}
-
-
 %----------------------------------------------------------------------------------------
 %	Overview of Project
 %----------------------------------------------------------------------------------------
-\subsection{Overview}
+\subsection{Background}
+
+
+\subsection{Need Statement}
+\begin{itemize}
+  \item Describe current Device testing situation at ZF
+  \item explain why it is suboptimal and current difficulties
+  \item Explain who is affected (the engineers and technicians times')
+\end{itemize}
+
+\subsection{High-Level System Design}
+
+\includegraphics[width=\textwidth]{../assets/block_diagram.png}
+
+\subsection{Specifications}
+\begin{itemize}
+  \item list PCB circuit specifics here as well as DUT specifications
+  \item Heterogenous architecture with Cortex-A7 and Cortex-M4 processors
+  \item Embedded Linux built with Yocto Project build system
+  \item Custom Server API written in Rust
+  \item Web Assembly application to interact with Server and microcontroller
+\end{itemize}
+
+\subsection{Deliverables}
+\begin{itemize}
+  \item Custom PCB schematic diagram with layout
+  \item Verification of M4 firmware measuring correct values
+  \item Project Gantt Chart estimated actual 
+\end{itemize}
 
 
 %----------------------------------------------------------------------------------------
 %	Design and Implementation
+% 
+% * Hardware (Circuit/PCB) and device interfacing and power management
+% * Enclosure Design
+% * ARM Cortex-M4 Firmware
+% * Embedded Linux with Yocto Project
+% * Web Assembly application
+% * Webserver
+% * Inter-Processor Communication (IPC)
 %----------------------------------------------------------------------------------------
-\subsection{Design and Implementation}
+\section{Design and Implementation}
+\subsubsection{Custom Printed Circuit Board for Device interfacing and Power Management}
+
+\subsection{Arm Cortex-M4 firmware for device Testing}
+
+\subsection{Embedded Linux with Yocto Project}
+
+\subsection{Custom API Web Server in Rust}
+
+\subsection{Web Assembly Application using the Yew framework}
 
 
 %----------------------------------------------------------------------------------------
