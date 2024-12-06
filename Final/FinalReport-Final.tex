@@ -1242,8 +1242,6 @@ connected to both custom PCBs and various test devices including:
   \includegraphics[width=\textwidth]{../assets/test-setup.png}
   \caption{Complete Test set up with Brake Signal Transmitter}
 \end{figure}
-% [FIGURE 1: Photo of complete test setup showing PCBs, development
-% board, and connected test devices]
 
 \subsection{Test Procedure}
 
@@ -1268,6 +1266,11 @@ The system successfully validated:
 \end{itemize}
 
 % [FIGURE 3: Sample CSV output showing test results]
+\begin{figure}[H]
+  \includegraphics[width=0.475\textwidth]{../assets/csv.png}
+  \includegraphics[width=0.475\textwidth]{../assets/measurements.png}
+  \caption{Idle measurements of both CSV and Oscilliscope tool}
+\end{figure}
 
 Real-time monitoring demonstrated reliable inter-processor communication
 with consistent sub-10ms response times. Web interface remained responsive
@@ -1279,6 +1282,9 @@ exported.
 The system met all critical requirements for automated testing of
 automotive safety components, providing accurate measurements and clear
 pass/fail criteria for warranty validation purposes.
+
+A video demonstration of testing can be found at the following:
+\url{https://dylxndy.xyz/senior-design-presentation/verification}
 
 
 
@@ -1335,6 +1341,110 @@ and laid out.
 
 
 \section{Appendix}
+\appendix
+\section*{A2. Schematic Diagrams}
+The following schematic diagrams are included to provide detailed circuit designs:
+\begin{itemize}
+    \item Power Supply Schematic (Figure 2)
+    \item Brake Signal Transmitter Schematic (Figure 3)
+    \item Continuous Wear Sensor Schematic (Figure 4)
+    \item Pressure Sensor Schematic (Figure 5)
+    \item String Potentiometer Schematic (Figure 6)
+\end{itemize}
+Each figure is labeled and referenced clearly in the main report.
+
+\section*{A3. Bills of Materials (BOM)}
+The following figures provide detailed information on the Bills of Materials:
+\begin{itemize}
+    \item Power Supply PCB Bills of Materials (Figure 8)
+    \item Peripherals PCB Bills of Materials (Figure 10)
+\end{itemize}
+
+\section*{A4. Relevant Standards}
+The following standards were referenced during the project design:
+\begin{itemize}
+    \item \textbf{IEEE 11073-00101}: Standards for medical/automotive data communication.
+    \item \textbf{ISO 7637-2}: Electrical disturbances in automotive vehicles.
+    \item \textbf{IEC 60529}: IP Code for dust/water protection in enclosures.
+    \item \textbf{IEEE 1625}: Standards for electronic safety and efficiency.
+\end{itemize}
+For example, \textit{ISO 7637-2} ensures the system handles disturbances like voltage fluctuations, critical for the power supply circuit design.
+
+\section*{A5. Figures and Testing Images}
+The following images document the project's PCBs, enclosures, and setups:
+\begin{itemize}
+    \item \textbf{PCB Layouts:}
+    \begin{itemize}
+        \item Power Supply PCB (Figure 7)
+        \item Peripherals PCB (Figure 9)
+    \end{itemize}
+    \item \textbf{3D Renderings and Enclosures:}
+    \begin{itemize}
+        \item Enclosed/Open Views (Figures 11–14)
+    \end{itemize}
+\end{itemize}
+
+\section*{A6. Calculations and Derivations}
+To calculate the LM317's output voltage \( V_{\text{out}} \):
+\begin{itemize}
+  \item \textbf{Formula:}
+    \[
+      V_{\text{out}} = V_{\text{ref}} \times \left( 1 + \frac{R_2}{R_1} \right)
+    \]
+    Where:
+    \begin{itemize}
+      \item \( V_{\text{ref}} = 1.25 \, \text{V} \)
+      \item \( R_1 = 220 \, \Omega \)
+      \item \( R_2 = 330 \, \Omega \)
+    \end{itemize}
+  \item \textbf{Calculation:}
+    \[
+      V_{\text{out}} = 1.25 \times \left( 1 + \frac{330}{220} \right) = 1.25 \times 2.5 = 3.125 \, \text{V DC}
+    \]
+    Real-world tolerances yielded \( V_{\text{out}} = 3.146 \, \text{V DC} \), suitable for the STM32 microcontroller.
+
+  \item \textbf{Explanation:}
+    Resistors \( R_1 \) and \( R_2 \) form a voltage divider, controlling the feedback to the LM317’s adjustment pin. The chosen resistors ensure a stable \( 3.146 \, \text{V DC} \), ideal for the STM32.
+\end{itemize}
+    \section*{Signal Conditioning Resistor and Capacitor Values}
+\textbf{Power Supply PCB:}
+\begin{itemize}
+    \item \textbf{Resistors:}
+    \begin{itemize}
+        \item \( R_1 = 220 \, \Omega \)
+        \item \( R_2 = 330 \, \Omega \)
+    \end{itemize}
+    \item \textbf{Capacitors:}
+    \begin{itemize}
+        \item \( C_1, C_3 = 10 \, \mu F \)
+        \item \( C_2, C_4, C_5 = 22 \, \mu F \)
+    \end{itemize}
+\end{itemize}
+
+\textbf{Peripherals PCB:}
+\begin{itemize}
+    \item \textbf{Brake Signal Transmitter:}
+    \begin{itemize}
+        \item Resistors: \( R_1, R_4 = 3 \, k\Omega \), \( R_2, R_5 = 8.2 \, k\Omega \), \( R_3, R_6 = 3.3 \, k\Omega \)
+        \item Capacitors: \( C_1, C_2 = 2.2 \, nF \)
+        \item Diodes: \( D_1, D_2 = 1N4001 \)
+    \end{itemize}
+    \item \textbf{Continuous Wear Sensor:}
+    \begin{itemize}
+        \item Resistors: \( R_9 = 3 \, k\Omega \), \( R_{10} = 3 \, k\Omega \)
+    \end{itemize}
+    \item \textbf{Pressure Sensor:}
+    \begin{itemize}
+        \item Resistors: \( R_7, R_8 = 3 \, k\Omega \)
+        \item Capacitors: \( C_3 = 330 \, \mu F \)
+    \end{itemize}
+    \item \textbf{String Potentiometer:}
+    \begin{itemize}
+        \item Resistors: \( R_{11} = 8.5 \, k\Omega \), \( R_{12} = 3.3 \, k\Omega \)
+    \end{itemize}
+\end{itemize}
+\textbf{Summary:}
+The chosen values ensure accurate signal scaling, noise filtering, and protection, enabling clean data acquisition for the STM32 microcontroller.
 
 
 
