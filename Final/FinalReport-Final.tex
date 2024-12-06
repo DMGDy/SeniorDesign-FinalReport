@@ -13,6 +13,7 @@
 \usepackage[english]{babel}
 \usepackage{sectsty}
 \usepackage{url}
+\usepackage{float}
 \usepackage{enumerate}
 \usepackage{enumitem}
 \usepackage{mdframed}
@@ -39,72 +40,72 @@
 %-------------------------------------------------------------------------------
 \begin{document}
 \begin{titlepage}
-    \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
-    
-    \center % Center everything on the page
-    
-    %----------------------------------------------------------------------------------------
-    %	HEADER SECTION
-    %----------------------------------------------------------------------------------------
-    
-    \textsc{\LARGE Western Michigan University}\\[0.5cm]
-    \textsc{\Large Department of Electrical and Computer Engineering}\\[0.5cm] 
-    \textsc{\large ECE-4820 Senior Design II}\\[0.5cm] 
-    
-    %----------------------------------------------------------------------------------------
-    %	TITLE SECTION
-    %----------------------------------------------------------------------------------------
-    
-    \HRule \\[0.4cm]
-    { \huge \bfseries  Claims-Investigation Committee (CIC) Multi-Input Testing Device}\\[0.4cm]  
-    \textsc{\Large Final Report (Outline/Draft)}\\[0.4cm] 
-    \HRule \\[1.5cm]
-    
-    %----------------------------------------------------------------------------------------
-    %	LOGO SECTION
-    %----------------------------------------------------------------------------------------
-    
-    \includegraphics[width=0.3\textwidth]{./../assets/WMU_Logo.png}\\[1cm]  
-    %----------------------------------------------------------------------------------------
-    %	DATE SECTION
-    %----------------------------------------------------------------------------------------
-    
-    {\large \today}\\[1cm] 
-    
-    %----------------------------------------------------------------------------------------
-    %	ADVISOR & SPONSOR SECTION
-    %----------------------------------------------------------------------------------------
-    
-    \begin{minipage}{0.4\textwidth}
-        \begin{flushleft} \large
-            \emph{Faculty Advisor:}\\
-            Dr. Janos Grantner\\ [.25cm]
-        \emph{Team Members:}\\
-        Dylan-Matthew Garza\\
-        Daniel Baker\\
-        Rohullah Sah
-        \end{flushleft}
-    \end{minipage}
-    ~
-    \begin{minipage}{0.4\textwidth}
-        \begin{flushright} \large
-            \emph{Sponsor:} \\
-            ZF
-            \\\emph{Contact:}\\
-            Patrick McNally\\ 
-            Patrick.McNally@zf.com
-        \end{flushright}
-    \end{minipage}\\[1cm]
-    
-    %----------------------------------------------------------------------------------------
-    %	TEAM MEMBERS SECTION
-    %----------------------------------------------------------------------------------------
-    
+  \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+
+  \center % Center everything on the page
+
+  %----------------------------------------------------------------------------------------
+  %	HEADER SECTION
+  %----------------------------------------------------------------------------------------
+
+  \textsc{\LARGE Western Michigan University}\\[0.5cm]
+  \textsc{\Large Department of Electrical and Computer Engineering}\\[0.5cm] 
+  \textsc{\large ECE-4820 Senior Design II}\\[0.5cm] 
+
+  %----------------------------------------------------------------------------------------
+  %	TITLE SECTION
+  %----------------------------------------------------------------------------------------
+
+  \HRule \\[0.4cm]
+  { \huge \bfseries  Claims-Investigation Committee (CIC) Multi-Input Testing Device}\\[0.4cm]  
+  \textsc{\Large Final Report }\\[0.4cm] 
+  \HRule \\[1.5cm]
+
+  %----------------------------------------------------------------------------------------
+  %	LOGO SECTION
+  %----------------------------------------------------------------------------------------
+
+  \includegraphics[width=0.3\textwidth]{./../assets/WMU_Logo.png}\\[1cm]  
+  %----------------------------------------------------------------------------------------
+  %	DATE SECTION
+  %----------------------------------------------------------------------------------------
+
+  {\large \today}\\[1cm] 
+
+  %----------------------------------------------------------------------------------------
+  %	ADVISOR & SPONSOR SECTION
+  %----------------------------------------------------------------------------------------
+
+  \begin{minipage}{0.4\textwidth}
     \begin{flushleft} \large
+      \emph{Faculty Advisor:}\\
+      Dr. Janos Grantner\\ [.25cm]
+      \emph{Team Members:}\\
+      Dylan-Matthew Garza\\
+      Daniel Baker\\
+      Rohullah Sah
     \end{flushleft}
-    
-    \vfill 
-    
+  \end{minipage}
+  ~
+  \begin{minipage}{0.4\textwidth}
+    \begin{flushright} \large
+      \emph{Sponsor:} \\
+      ZF
+      \\\emph{Contact:}\\
+      Patrick McNally\\ 
+      Patrick.McNally@zf.com
+    \end{flushright}
+  \end{minipage}\\[1cm]
+
+  %----------------------------------------------------------------------------------------
+  %	TEAM MEMBERS SECTION
+  %----------------------------------------------------------------------------------------
+
+  \begin{flushleft} \large
+  \end{flushleft}
+
+  \vfill 
+
 \end{titlepage}
 
 \tableofcontents
@@ -197,38 +198,38 @@ for warranty claim validation.
 
 \subsection{Specifications}
 \begin{enumerate}[label=\arabic*.]
-    \item Device Interfacing
-        \begin{enumerate}[label=\theenumi.\arabic*]
-            \item Properly read Device Signals using the ARM Cortex-M4 on the onboard 
-                  microcontroller on the STM32MP157F-DK2
-                \begin{itemize}
-                    \item PWM duty cycle
-                    \item Frequency
-                    \item Voltages through an analog-to-digital converter (ADC)
-                    \item CAN frames
-                \end{itemize}
-        \end{enumerate}
+  \item \textbf{Device Interfacing}
+    \begin{enumerate}[label=\theenumi\arabic*]
+      \item Properly read Device Signals using the ARM Cortex-M4 on the onboard 
+        microcontroller on the STM32MP157F-DK2
+        \begin{itemize}
+          \item PWM duty cycle
+          \item Frequency
+          \item Voltages through an analog-to-digital converter (ADC)
+          \item CAN frames
+        \end{itemize}
+    \end{enumerate}
 
-    \item Physical Components and Hardware
-        \begin{enumerate}[label=\theenumi.\arabic*]
-            \item Printed Circuit Board (PCB) for interfacing with DUT
-            \item PCB for scaling and managing power for the DUT and to the 
-                  microcontroller
-            \item Enclosure for PCBs and STM32MP157F-DK2 board
-        \end{enumerate}
+  \item \textbf{Physical Components and Hardware}
+    \begin{enumerate}[label=\theenumi\arabic*]
+      \item Printed Circuit Board (PCB) for interfacing with DUT
+      \item PCB for scaling and managing power for the DUT and to the 
+        microcontroller
+      \item Enclosure for PCBs and STM32MP157F-DK2 board
+    \end{enumerate}
 
-    \item Software
-        \begin{enumerate}[label=\theenumi.\arabic*]
-            \item Custom embedded Linux distribution that will run on the onboard ARM 
-                  Cortex-A7 microprocessor on the STM32MP157F-DK2
-            \item Simple user interface on web-based application
-            \item Custom Webserver to process information from web application to 
-                  microcontroller
-            \item Communicate collected information from ARM Cortex-M4 to ARM 
-                  Cortex-A7
-            \item Ability to download measured data, formatted as a CSV, through the 
-                  web application
-        \end{enumerate}
+  \item \textbf{Software}
+    \begin{enumerate}[label=\theenumi\arabic*]
+      \item Custom embedded Linux distribution that will run on the onboard ARM 
+        Cortex-A7 microprocessor on the STM32MP157F-DK2
+      \item Simple user interface on web-based application
+      \item Custom Webserver to process information from web application to 
+        microcontroller
+      \item Communicate collected information from ARM Cortex-M4 to ARM 
+        Cortex-A7
+      \item Ability to download measured data, formatted as a CSV, through the 
+        web application
+    \end{enumerate}
 \end{enumerate}
 
 
@@ -275,49 +276,430 @@ strict compliance with ZF Group's testing requirements.
 % * Inter-Processor Communication (IPC)
 %----------------------------------------------------------------------------------------
 \section{Design and Implementation}
-\subsubsection{Custom Printed Circuit Board for Device interfacing and Power Management}
 
-\subsection{Arm Cortex-M4 firmware for device Testing}
+\subsection{Devices Under Test (DUT)}
+The Claims Investigation Committee's testing platform is designed to validate
+multiple critical automotive safety components from ZF's commercial vehicle
+braking systems. These devices represent key components in the braking system's
+safety chain, each serving specific functions that together, ensure reliable
+and safe vehicle operation.
+
+The testing platform currently supports four devices: the Brake Signal
+Transmitter (BST), Continuous Wear Sensor (CWS), Electronic Stability Control
+Module (ESCM), and a Pressure Sensor. Each device requires unique testing
+approaches due to their distinct communication protocols and operational
+parameters. Understanding these devices' functions and manufacturer
+specifications is crucial for implementing accurate testing procedures. 
+
+
+\subsubsection{Brake Signal Transmitter (BST)}
+The Claims Investigation Committee's testing platform is designed to validate
+multiple critical automotive safety components from ZF's commercial vehicle
+braking systems. These devices represent key components in the braking system's
+safety chain, each serving specific functions that together, ensure reliable
+and safe vehicle operation.
+
+The testing platform currently supports four devices: the Brake Signal
+Transmitter (BST), Continuous Wear Sensor (CWS), Electronic Stability Control
+Module (ESCM), and a Pressure Sensor. Each device requires unique testing
+approaches due to their distinct communication protocols and operational
+parameters. Understanding these devices' functions and manufacturer
+specifications is crucial for implementing accurate testing procedures. 
+
+\subsubsection{Brake Signal Transmitter (BST)}
+
+The Brake Signal Transmitter (BST) is a critical component in ZF's commercial
+vehicle braking systems, providing real-time brake status information to the
+vehicle's Electronic Control Unit (ECU). The Brake Signal Transmitter generates
+the electrical and pneumatic signals that represent the braking demand of the
+driver within the modular Braking System 2.0 (mBSP 2.0) Electronic Brake System
+(EBS). The device has a single circuit pneumatic design and contains two
+redundant pedal stroke sensors and a switch that is only used in European
+design. To reduce the exhaust noise, the BST has a built-in silencer. The BST
+is actuated by a foot pedal which is provided by the vehicle manufacturer (In
+this case specifically Daimler Trucks North America). Two Pulse Width
+Modulation (PWM) signals are generated by the BST, as long as both signals are
+powered.
+
+The BST's electrical architecture is designed for robust operation in
+commercial vehicle environments. The BST uses a contact system of HDSCS by TYCO
+(AMP MCP 1.5/2.8 MIX 7 - pole linear bayonet) for electrical connections.
+Operating on a nominal 12V DC system, the device maintains functionality across
+an 8V to 16V DC voltage range with built-in protection against reverse polarity
+and overvoltage conditions. Each PWM channel draws no more than 50 mA current,
+with total load capacitance limited to 6.8nF per channel. The output signals
+are similarly protected, with maximum current limited to 15 mA per channel,
+incorporating short-circuit protection and reverse polarity protection to
+prevent damage to the device or the vehicle's electrical system.
+
+The core functionality of the BST centers on its stroke sensor characteristics,
+which generate two complementary PWM signals (S1 and S2) that precisely
+indicate brake pedal position. These signals operate at 200Hz ±10Hz and follow
+specific duty cycle relationships:
+
+\begin{itemize} \item Signal S1 initiates at 12.5\% duty cycle when the brake
+      pedal is at rest (0mm stroke), increasing linearly at 5.96\% per
+    millimeter of pedal stroke. \item Signal S2 initiates at 87.5\% duty cycle
+      when the brake pedal is at rest (0mm stroke), decreasing linearly at
+      5.96\% per millimeter of pedal stroke. \item Both signals maintain +- 5\%
+    duty cycle tolerance throughout the stroke range. \item The signals
+      intersect at approximately 6.3mm oedal stroke, with both signals at 50\%
+duty cycle. \end{itemize}
+
+The PWM signals are defined by several key parameters: \begin{itemize} \item
+    Amplitude varying between U\textsubscript{max} (determined by CCU pull-up
+  voltage) and U\textsubscript{min} (<1V) \item Period T = 1/f, where f is the
+    200Hz carrier frequency \item Duty cycle calculated as DC =
+T\textsubscript{high}/T\textsubscript{total} \end{itemize}
+
+To ensure reliable signal integrity, the BST interface requires specific
+loading conditions: \begin{itemize} \item Pull-up resistors: 4k$\Omega$ $\pm$1\% and 3k$\Omega$
+      $\pm$1\% to 12V \item Filtering capacitors: 2.2nF ±10\% \end{itemize}
+
+      The BST's implementation in Daimler's 2025 platform underscores the
+      importance of accurate validation testing. As the highest volume
+      commercial vehicle platform in North America, ensuring consistent and
+      reliable BST operation is crucial for vehicle safety and warranty claim
+      processing. This testing platform's ability to precisely measure PWM
+      characteristics, timing relationships, and stroke correlations provides
+      essential validation capabilities for both production quality assurance
+      and field return analysis.
+
+
+\subsubsection{Continuous Wear Sensor (CWS)}
+
+\subsubsection{Electronic Stability Control Module (ESCM)}
+
+\subsubsection{Pressure Sensor}
+
+\subsection{Custom Printed Circuit Board for Device Interfacing and Power Management}
+This project involved the development of schematic designs and custom PCBs to
+manage power supply and interface with various devices under test (DUTs) using
+KiCad. The designs were implemented to ensure stable power distribution and
+accurate signal processing for the DUTs, with specific focus on hardware
+efficiency and durability.
+
+
+\subsubsection{Power Supply Schematic Design}
+The power supply schematic begins with a 16V DC input, connected via a power
+jack, which acts as the main source of power for the system. 10uF and 22uF
+Capacitors are placed before and after each voltage regulator to ensure a
+stable voltage level and filter out any electrical noise. These capacitors also
+prevent voltage fluctuations, ensuring a stable supply to the components.
+\break
+\subsubsection*{Voltage Regulation}
+  \begin{figure}[H]
+    \includegraphics[width=\textwidth]{../assets/pcb/image1.jpg}
+    \caption{Schematic Design of the Power Supply Management System}
+  \end{figure}
+\begin{itemize}
+  \item The LM7812 voltage regulator converts the 16V DC input to 12V DC.
+  \item The LM7805 voltage regulator further regulates the 12V DC to a 5V DC,
+    suitable for devices that require low voltage.
+  \item The LM317 adjustable regulator is used to step down the voltage for the
+    microcontroller, providing a stable 3.146V DC. This precise voltage is
+    achieved by using a combination of 220-ohm and 330-ohm resistors, which set
+    the voltage according to the parameters.
+
+    This layered voltage regulation ensures that all peripherals and the
+    microcontroller receive clean and safe power levels for proper operation.
+\end{itemize}
+
+\subsubsection{Peripherals Schematic Design}
+The peripherals schematic shows the design and signal conditioning circuits for
+four Devices Under Test (DUT’s): the Brake Signal Transmitter (BST), the
+Continuous Wear Sensor (CWS), the Pressure Sensor, and the String
+Potentiometer. These circuits ensure accurate data acquisition and
+compatibility with the STM32 Board by conditioning, scaling and protecting the
+signals.
+
+\subsubsection*{Brake Signal Transmitter}
+The Brake Signal Transmitter is designed to read the Pulse Width Modulation
+(PWM) signals, which represent the brake’s operational state. The circuit
+includes resistors, such as 3k-ohms and 8.2k-ohms, to scale the PWM signals
+down to levels safe for the microcontroller. Additionally, a 2.2nF capacitor is
+used to filter out high-frequency noise, ensuring a clean and stable signal.
+1N4001 diodes are included for overvoltage protection, safeguarding the
+microcontroller from potential voltage spikes.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image2.jpg}
+  \caption{Schematic Design of the Brake Signal Transmitter}
+\end{figure}
+
+\subsubsection*{Continuous Wear Sensor}
+The Continuous Wear Sensor (CWS) captures analog voltage signals to monitor
+brake pad wear. This schematic is relatively simple but effective, using
+3k-ohms resistors for signal scaling and stabilization. Proper grounding
+ensures that the integrity of the signal is minimized and maintain consistent
+readings.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image3.jpg}
+  \caption{Schematic Design of the Continuous Wear Sensor}
+\end{figure}
+
+
+\subsubsection*{Pressure Sensor}
+The Pressure Sensor measures the pressure within the braking system. It outputs
+an analog voltage signal, which is conditioned using a 330uF capacitor to
+stabilize the output and eliminate fluctuations. Additionally, 3k-ohms
+resistors are used to scale and prepare the signal for processing by the
+microcontroller.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image4.jpg}
+  \caption{Schematic Design of the Pressure Sensor}
+\end{figure}
+
+\subsubsection*{String Potentiometer}
+The String Potentiometer is used to monitor the displacement, such as the
+movement of the brake pedal, and converts it into proportional voltage signal.
+This circuit uses resistors, including 8.5k-ohms and 3.3k-ohms, to scale the
+output signal to levels suitable for the microcontroller. As with the other
+peripherals, stable grounding and power inputs are implemented to maintain
+accurate and reliable signal transmission.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image5.jpg}
+  \caption{Schematic Design of the String Potentiometer}
+\end{figure}
+
+Overall, the peripherals schematics focuses on providing clean, conditioned, and scaled signals from each DUT’s to the STM32 microcontroller while including corresponding components to prevent damage or errors. This ensures the entire system operates efficiently and reliably, with accurate data acquisition from all devices.
+
+\subsubsection{Printed Circuit Board (PCB’s) Design}
+\subsubsection*{Power Supply PCB}
+The Power Supply PCB is a critical component designed to regulate and provide
+multiple voltage levels to the system. It starts at 16V DC input through a
+barrel jack connector. This 16V input is directed through a series of voltage
+regulators that step down the voltage to meet the requirements of the various
+components in the circuit.
+
+The board utilizes capacitors of 10$\mu$F and 22$\mu$F, which are strategically placed
+before and after each voltage regulator. These capacitors help to stabilize the
+voltage output by filtering out noise and ensuring smooth operation. The LM7812
+regulator steps down the voltage to 12V DC, which is essential for certain
+peripherals. This 12V is then fed into another voltage regulator circuit
+comprising an LM317 adjustable voltage regulator along with two resistors, 220$\Omega$
+and 330$\Omega$, to further step it down to 3.146V DC. This precise voltage level is
+crucial for the operation of the microcontroller.
+
+
+The design includes multiple output pins for 12V, 5V, and 3.3V voltages,
+ensuring compatibility with different devices and peripherals connected to the
+system. The layout of the PCB is compact yet efficient, allowing for adequate
+heat dissipation. The traces are kept wide enough to handle current flow
+effectively, and proper spacing is maintained to prevent any electrical shorts.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image6.jpg}
+  \caption{Printed Circuit Board Design of the Power Supply Management}
+\end{figure}
+\subsubsection*{Peripheral PCB Design}
+The Peripherals PCB is designed to accommodate all the connections and
+conditioning circuits required for the various devices under test (DUTs),
+including the Brake Signal Transmitter (BST), the Continuous Wear Sensor (CWS),
+the Pressure Sensor, and the String Potentiometer. Each DUT is connected
+through dedicated input and output pins, clearly labeled on the board for ease
+of use.
+
+The BST section includes diodes, resistors, and capacitors to read PWM signals
+reliably. The diodes provide protection against voltage spikes, while the
+resistors and capacitors condition the PWM signals for accurate processing.
+Similarly, the Pressure Sensor section features a capacitor to stabilize the
+signal and resistors to scale the output voltage for the microcontroller.
+
+The Continuous Wear Sensor section captures analog voltage signals representing
+brake wear. This signal is scaled and filtered using resistors and capacitors
+to ensure accurate readings. The String Potentiometer section, on the other
+hand, converts displacement into a proportional voltage signal. Resistors in
+this section ensure the signal remains within the safe operating range for the
+microcontroller.
+
+The PCB layout emphasizes clean and efficient routing, ensuring that signals
+are isolated to prevent interference. The components are arranged logically,
+with each DUT section clearly mentioned, making the board easy to debug and
+maintain.
+
+Both the Power Supply and Peripherals PCBs were designed using KiCad, an
+open-source PCB design tool. KiCad's features allowed precise component
+placement and trace routing, ensuring reliable performance and
+manufacturability of the boards. These PCBs were custom designed to meet the
+specific requirements of the project, balancing functionality with simplicity.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image7.jpg}
+  \caption{Printed Circuit Board Design of the Peripherals}
+\end{figure}
+\subsubsection{Enclosure Design} 
+The enclosures designed for the power supply
+and peripherals PCBs, as well as the STM32 microcontroller, were custom-built
+to meet the specific needs of the project. These enclosures were created using
+Autodesk’s Fusion 360, allowing for precision in their design and ensuring they
+provided both functional and inventive advantages.
+
+\subsubsection*{Power Supply and Peripherals Enclosure} 
+The combined enclosure
+for the power supply and peripherals PCBs was designed with functionality as
+the primary focus. It ensures the protection of the internal PCBs while also
+providing easy access for connections and maintenance. Slots were strategically
+placed for the DC jack and the input/output pins, which allowed efficient cable
+management and straightforward connectivity during operation. Additionally,
+ventilation slots were included to maintain stable temperatures and prevent
+overheating during extended usage.
+
+The interior design included standoffs to securely mount the PCBs, preventing
+any physical movement that could damage connections. The two-part assembly of
+the enclosure made it user-friendly for repairs, upgrades, or debugging tasks.
+This modular design simplified the assembly and disassembly process while
+ensuring durability.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image8.jpg}
+  \caption{Enclosed Enclosure for Power Supply PCB and Peripherals PCB}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image9.jpg}
+  \caption{Open Enclosure for Power Supply PCB and Peripherals PCB}
+\end{figure}
+
+
+\subsubsection*{STM32 Microcontroller Enclosure}
+The STM32 enclosure was designed with the same principles of protection and
+accessibility but tailored specifically to house the microcontroller and its
+associated components. It featured openings for all essential ports, including
+USB, power, and communication ports, ensuring seamless integration with other
+devices and systems.
+
+
+The enclosure's robust design protected the STM32 board from physical damage
+and environmental factors while maintaining airflow through ventilation slots
+to ensure thermal stability. Just like the power supply and peripherals
+enclosure, it was created as a two-part assembly, which facilitated quick
+access to the microcontroller during testing or maintenance.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image10.jpg}
+  \caption{Enclosed Enclosure for the STM32 Board}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image11.jpg}
+  \caption{Open Enclosure for the STM32 Board}
+\end{figure}
+
+
+\subsection{Arm Cortex-M4 Firmware}
+
+\subsubsection{Brake Signal Transmitter (BST) Testing}
+
+\subsubsection{Continuous Wear Sensor (CWS) Testing}
+
+\subsubsection{Electronic Stability Control Module (ESCM) Testing}
+
+\subsubsection{Pressure Sensor Testing}
 
 \subsection{Embedded Linux with Yocto Project}
+The choice to use Embedded Linux for such an application was for various reasons:
+it provided access to a wide array of open-source software (OSS) and tools, it 
+has a rich set of documentation accompanies by a big community of developers, and
+it is likely the easiest to develop on. 
+
+\subsection{Interprocessor Communication with OpenAMP Project}
 
 \subsection{Custom API Web Server in Rust}
 
 \subsection{Web Assembly Application using the Yew framework}
 
-
 %----------------------------------------------------------------------------------------
 %	Design Considerations 
 %----------------------------------------------------------------------------------------
 \subsection{Design Considerations}
+When designing the Multi-Signal Automotive Testing Device, several factors were
+taken into consideration to ensure the project aligns with broader societal,
+environmental, and economic goals.
 
 \subsubsection{Public Health}
+This device ensures accurate testing of automotive components, contributing
+indirectly to public health by improving vehicle safety. For example, properly
+functioning brake signal transmitters and stability control systems can reduce
+accidents, keeping roads safer for everyone.
+
 
 \subsubsection{Safety and Welfare}
+Safety was prioritized in the design process. The enclosures were crafted to
+protect the electronics from physical damage, and the use of standoffs and
+secure mounts minimizes risks of electrical short circuits. Additionally, the
+circuit design incorporated diodes to prevent reverse voltage damage, ensuring
+operational reliability.
+
 
 \subsubsection{Global Impact}
+The design supports the development of safer automotive systems globally. Since
+cars are used worldwide, this project contributes to the larger goal of
+enhancing vehicle reliability and reducing accidents, which has a ripple effect
+on public safety and environmental sustainability.
+
 
 \subsubsection{Cultural Impact}
+Automotive systems impact people differently based on their cultural
+priorities. In cultures where vehicle ownership represents progress and
+economic stability, this device indirectly supports technological advancement
+and trust in automotive technology.
+
 
 \subsubsection{Social Impact}
+Automotive systems impact people differently based on their cultural
+priorities. In cultures where vehicle ownership represents progress and
+economic stability, this device indirectly supports technological advancement
+and trust in automotive technology.
 
 \subsubsection{Environmental/Sustainability}
+The device was designed with energy efficiency in mind. For instance, voltage
+regulators and capacitors were used to ensure efficient power consumption.
+Furthermore, the focus on durability and modularity reduces electronic waste
+since individual components can be replaced rather than discarding the whole
+device.
+
 
 \subsubsection{Economic}
-
+Economically, this device helps lower testing costs for automotive systems by
+providing a reliable and reusable solution. The use of custom PCBs and locally
+designed enclosures ensured cost efficiency while maintaining functionality.
 
 %----------------------------------------------------------------------------------------
 %	Design Impacts
 %----------------------------------------------------------------------------------------
 \subsection{Design Impacts}
+The project had several direct and indirect impacts on a variety of domains,
+from the global stage to individual communities.
 
 \subsubsection{Global}
+On a global scale, this project aligns with the push for smarter, safer, and
+more reliable automotive systems. It enhances the tools available for testing
+automotive components, which is critical in the development of advanced
+driver-assistance systems (ADAS) and autonomous vehicles.
 
 \subsubsection{Economic}
+The device minimizes testing costs for automotive manufacturers, especially for
+smaller companies that may lack access to expensive testing equipment. Its
+modular design allows cost-effective upgrades, ensuring long-term usability.
+
 
 \subsubsection{Environmental}
+The environmental impact was reduced by selecting components that support
+energy efficiency and reducing waste through a modular design. Additionally, by
+enabling more reliable testing of components like brake and wear sensors, this
+project indirectly reduces environmental hazards caused by vehicle failures.
+
 
 \subsubsection{Societal}
+The societal impact of this project lies in its ability to enhance safety
+standards. Reliable testing leads to safer vehicles, which means fewer
+accidents, lower healthcare costs, and better public trust in transportation
+infrastructure.
+
 
 
 %----------------------------------------------------------------------------------------
@@ -329,7 +711,54 @@ strict compliance with ZF Group's testing requirements.
 %----------------------------------------------------------------------------------------
 %	Conclusion
 %----------------------------------------------------------------------------------------
+\pagebreak
 \section{Conclusion}
+
+The Claims Investigation Committee Multi-Testing Input Device project
+successfully delivered a comprehensive testing solution for ZF Group's
+automotive safety components. The system effectively automates validation
+testing across multiple devices including the Brake Signal Transmitter,
+Continuous Wear Sensor, and pressure sensors, addressing the key challenges
+faced by the Claims Investigation Center.
+
+The implemented solution combines robust hardware design with modern software
+architecture. Custom PCBs manage power and signal routing, while the dual-core
+STM32MP157F-DK2 platform handles both real-time signal processing and test
+management. The WebAssembly frontend and Rust backend provide an intuitive user
+interface, with OpenAMP facilitating seamless inter-processor communication.
+
+Test results demonstrate the system's capability to validate components against
+manufacturer specifications through automated data collection and analysis. The
+platform's modular design supports multiple device types and allows for future
+expansion. Notably, the system achieves significant improvements in testing
+efficiency compared to manual methods, while maintaining the rigorous standards
+required for automotive safety component validation.
+
+Despite challenges in system clock configuration and PCB creation, the project
+fulfilled its primary objectives of streamlining the validation process and
+enhancing the CIC's testing capabilities. Future work will focus on completing
+CAN implementation for ESCM testing and further refinements to the web
+application interface.
+
+\section{Recomendations}
+For developing on this project further, potentially as another Senior Design Project,
+several recomentations can be made for improving current features, fully implementing 
+features not finished, or extending functionality. 
+
+Improving the apperance of the web application is a very simple feature to begin
+improving. To extend on the web application, porting it from using the Yew 
+Web Assembly framework to simple Web Assembly modules with valls to Javascript 
+for Document-Object-Model manipulations would enhance the portability of this portion
+greatly for easier development.
+
+A feature to finish implementation of is propper usage of the onboard CAN module 
+by implementing pin-multiplexing on the Yocto device tree.
+
+For a complete, comprehensive improvement, a completely custom PCB can be designed 
+with all the different components of the STM32MP157F-DK2 properly connected
+and laid out, or completely different parts. This alone would be a giant project.
+
+
 
 
 \end{document}
