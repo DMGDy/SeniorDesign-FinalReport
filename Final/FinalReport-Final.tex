@@ -418,6 +418,48 @@ maintenance scheduling and ensuring optimal brake system performance.
 
 
 \subsubsection{Electronic Stability Control Module (ESCM)}
+The Electronic Stability Control Module represents a critical safety system in
+ZF's commercial vehicle brake systems, specifically engineered for trucks and
+buses. The module integrates sophisticated sensor technology with advanced
+processing capabilities to enhance vehicle stability and prevent loss of
+control situations.
+
+The primary function of the ESCM centers on continuous monitoring of vehicle
+dynamics through integrated sensor technology. At its core, the module contains
+a yaw rate sensor that precisely measures the vehicle's rotational motion
+around its vertical axis, coupled with acceleration sensors that monitor both
+lateral and longitudinal movements. This multi-sensor approach enables
+comprehensive monitoring of vehicle behavior in dynamic driving situations.
+
+A key feature of the ESCM is its ability to detect and respond to vehicle
+instability conditions. The module continuously analyzes sensor data to
+identify potential skidding about the vertical axis and rollover tendencies.
+This real-time analysis enables the system to initiate corrective actions
+through the brake system when instability is detected, representing a crucial
+advancement in commercial vehicle safety systems.
+
+The mechanical architecture reflects the module's critical safety role. The
+device's construction centers around a sophisticated printed circuit board that
+houses the sensor array, microcontroller, and CAN interface components. This
+PCB is secured within a molded plastic housing, which includes integrated
+mounting points for secure attachment to the vehicle frame, ensuring stable
+sensor readings in dynamic driving conditions.
+
+The electrical architecture of the ESCM is designed for robust operation in
+commercial vehicle environments. The module operates with the following
+specifications:
+
+\begin{itemize}
+    \item Operating voltage range: 8V to 32V DC
+    \item Normal current consumption: 60mA to 120mA
+    \item CAN bus configuration: 500 KBaud with 120$\Omega$ $\pm$5% internal termination
+\end{itemize}
+
+The communication interface utilizes CAN 2.0A protocol, enabling reliable data exchange with other vehicle systems. The module demonstrates precise timing characteristics in its startup sequence, achieving initial CAN message transmission within 160-200ms of power application. Full sensor signal validation is established within 1000ms, ensuring reliable stability control once the vehicle is operational.
+
+The ESCM's sophisticated processing system integrates the sensor inputs with vehicle dynamics models to provide comprehensive stability control. This integration enables the module to detect complex vehicle behaviors and initiate appropriate responses through the brake system. By monitoring yaw rates and accelerations, the system can identify potentially dangerous vehicle states before they become critical, allowing for preventive intervention.
+
+The module's output through the CAN bus provides critical vehicle dynamics information to other control systems, supporting coordinated vehicle safety responses. This communication capability, combined with the module's sophisticated sensor array and processing capabilities, establishes the ESCM as a fundamental component in ensuring commercial vehicle safety and stability.
 
 \subsubsection{Pressure Sensor}
 
@@ -1292,7 +1334,7 @@ with all the different components of the STM32MP157F-DK2 properly connected
 and laid out. 
 
 
-\section{Appendice}
+\section{Appendix}
 
 
 
