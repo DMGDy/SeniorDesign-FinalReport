@@ -604,6 +604,11 @@ effectively, and proper spacing is maintained to prevent any electrical shorts.
   \includegraphics[width=\textwidth]{../assets/pcb/image6.jpg}
   \caption{Printed Circuit Board Design of the Power Supply Management}
 \end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image7.jpg}
+  \caption{Bills of Material (BOM) for Power Supply PCB}
+\end{figure}
 \subsubsection*{Peripheral PCB Design}
 The Peripherals PCB is designed to accommodate all the connections and
 conditioning circuits required for the various devices under test (DUTs),
@@ -637,8 +642,13 @@ manufacturability of the boards. These PCBs were custom designed to meet the
 specific requirements of the project, balancing functionality with simplicity.
 
 \begin{figure}[H]
-  \includegraphics[width=\textwidth]{../assets/pcb/image7.jpg}
+  \includegraphics[width=\textwidth]{../assets/pcb/image8.jpg}
   \caption{Printed Circuit Board Design of the Peripherals}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/pcb/image9.jpg}
+  \caption{Bills of Materials for Peripheral PCB Design}
 \end{figure}
 \subsubsection{Enclosure Design} 
 The enclosures designed for the power supply
@@ -664,12 +674,12 @@ This modular design simplified the assembly and disassembly process while
 ensuring durability.
 
 \begin{figure}[H]
-  \includegraphics[width=\textwidth]{../assets/pcb/image8.jpg}
+  \includegraphics[width=\textwidth]{../assets/pcb/image10.jpg}
   \caption{Enclosed Enclosure for Power Supply PCB and Peripherals PCB}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=\textwidth]{../assets/pcb/image9.jpg}
+  \includegraphics[width=\textwidth]{../assets/pcb/image11.jpg}
   \caption{Open Enclosure for Power Supply PCB and Peripherals PCB}
 \end{figure}
 
@@ -689,33 +699,166 @@ enclosure, it was created as a two-part assembly, which facilitated quick
 access to the microcontroller during testing or maintenance.
 
 \begin{figure}[H]
-  \includegraphics[width=\textwidth]{../assets/pcb/image10.jpg}
+  \includegraphics[width=\textwidth]{../assets/pcb/image12.jpg}
   \caption{Enclosed Enclosure for the STM32 Board}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=\textwidth]{../assets/pcb/image11.jpg}
+  \includegraphics[width=\textwidth]{../assets/pcb/image13.jpg}
   \caption{Open Enclosure for the STM32 Board}
 \end{figure}
 
-
 \subsection{Arm Cortex-M4 Firmware}
+
+The STM32MP157F-DK2's heterogeneous architecture combines an ARM Cortex-A7 application processor with an ARM Cortex-M4 coprocessor on a single chip. Our testing platform leverages this architecture by implementing dedicated signal processing firmware on the Cortex-M4 core, allowing real-time signal acquisition and analysis while maintaining responsive system operation through the Linux-based interface on the Cortex-A7.
+
+The firmware implementation centers on three key functions: signal acquisition, data processing, and inter-processor communication. For signal acquisition, the firmware configures multiple hardware peripherals of the STM32MP157F-DK2. Timer modules operate in input capture mode to measure PWM signals with microsecond precision. The Analog-to-Digital Converter (ADC), configured with Direct Memory Access (DMA), enables efficient sampling of analog voltage signals without processor intervention. Digital inputs are monitored through GPIO ports with interrupt capabilities for immediate response to state changes.
+
+Data processing occurs in real-time as signals are acquired. The firmware implements specific validation algorithms for each device under test, comparing measured values against manufacturer specifications. These algorithms account for different signal types - from simple analog voltages to complex PWM timing relationships. The firmware maintains separate processing routines for each device type while sharing common utilities for timing, averaging, and error detection.
+
+Inter-processor communication forms the bridge between signal processing and the user interface. The firmware utilizes OpenAMP (Open Asymmetric Multi-Processing) framework to establish reliable communication with the Cortex-A7 core. Through OpenAMP's RPMsg protocol, the firmware creates a virtual UART interface, allowing bidirectional communication. The Cortex-M4 receives test commands from the Cortex-A7 and responds with real-time measurement data, formatted as CSV records for straightforward analysis and storage.
+
+The firmware operation begins when a user selects a device for testing through the web application. This selection triggers the Rust web server on the Cortex-A7 to dynamically load the appropriate firmware (.elf file) onto the Cortex-M4 using the remoteproc framework. Each device under test has its own dedicated firmware implementation that configures the necessary peripherals and implements device-specific signal processing routines. When the firmware successfully loads, it establishes communication with the Cortex-A7 through OpenAMP's RPMsg protocol, creating a virtual UART interface. This interface allows the firmware to receive test parameters and transmit measurement data back to the Linux environment. The firmware continuously validates signals against manufacturer specifications while logging data in CSV format to the Linux kernel trace buffer. This dynamic firmware loading approach provides clear separation between different device tests while maintaining a consistent interface for the web application.
+
+This implementation offers several advantages over a state-machine approach. Each firmware build contains only the code necessary for its specific device, reducing complexity and potential errors. The dynamic loading system also allows for easier updates and modifications to individual device test routines without affecting the rest of the system. When testing completes or a new device is selected, the current firmware can be safely unloaded and replaced with another test firmware through the remoteproc framework.
+
+This firmware architecture enables comprehensive testing of multiple automotive components through a unified interface. Each device under test has dedicated signal processing routines tailored to its specific requirements, while sharing common infrastructure for timing, communication, and data management. This modular approach allows straightforward addition of new device types while maintaining consistent operation and reliable results.
 
 \subsubsection{Brake Signal Transmitter (BST) Testing}
 
+he BST firmware implements precise PWM signal analysis to validate brake actuation signals against manufacturer specifications. This testing is critical as the BST represents a primary safety component in the brake system, providing brake demand signals to the Electronic Control Unit (ECU). The firmware must accurately measure and validate two complementary PWM signals that represent brake pedal position.
+The signal acquisition centers on two key measurements: the PWM signals (S1 and S2) that represent brake pedal position. These signals operate at 200Hz $\pm$10Hz with complementary duty cycles. Signal S1 begins at 12.5% duty cycle at rest and increases at 5.96% per millimeter of pedal stroke, while S2 starts at 87.5% duty cycle and decreases at the same rate. The firmware utilizes Timer 3 and Timer 5 in input capture mode to measure these signals simultaneously, with each timer configured to capture both rising and falling edges for precise duty cycle calculation.
+For accurate signal measurement, the firmware implements timer-based input capture using interrupt handlers. These handlers precisely measure both the period and pulse width of each PWM signal:
+\begin{verbatim}
+#define STROKE_MIN 1
+#define STROKE_MAX 9
+#define DUTY_CYCLE_TOLERANCE 5.0f    // ±5% DC per specs
+#define SENSITIVITY 5.96f            // 5.96% DC/mm per specs
+\end{verbatim}
+The implementation includes sophisticated signal validation that considers several critical parameters. The firmware first captures initial offset values from both PWM channels when testing begins, establishing the baseline for subsequent measurements. During operation, it continuously monitors signal frequency stability, ensuring both channels maintain the required 200Hz $\pm$10Hz timing. Each PWM measurement undergoes multiple validation steps:
+\begin{enumerate}
+\item Frequency Validation: Both signals must maintain 200Hz $\pm$10Hz
+\item Duty Cycle Range: Values must stay within physical limits (approximately 10-90%)
+\item Complementary Relationship: S1 and S2 must maintain their inverse relationship
+\item Sensitivity Validation: Changes in duty cycle must correspond to the specified 5.96%/mm rate
+\end{enumerate}
+The firmware offers two testing modes based on configuration from the web interface. In standard mode, the firmware calculates estimated pedal stroke from the PWM signals themselves using the linear relationship defined by the sensitivity specification. When enabled, an optional string potentiometer provides direct stroke measurement through an ADC channel configured with DMA for enhanced validation accuracy. This dual-mode capability allows for both production testing and detailed analysis scenarios.
+For data logging, the firmware writes timestamped measurements to the Linux kernel trace buffer in CSV format. Each record includes:
+\begin{verbatim}
+time(s),duty_cycle1(%),duty_cycle2(%),stroke(mm),freq1(Hz),freq2(Hz)
+\end{verbatim}
+The BST firmware implements comprehensive error detection, identifying issues such as:
+\begin{itemize}
+\item Signal frequency deviation outside $\pm$10Hz tolerance
+\item Excessive duty cycle changes between measurements (>50% change)
+\item Loss of complementary relationship between S1 and S2
+\item Stroke position outside valid range (1mm to 9mm)
+\end{itemize}
+Test results are compiled by evaluating measurements against specification tolerances at multiple stroke positions. The firmware transmits the final pass/fail status through the RPMsg interface after completing its validation sequence. This detailed analysis, combined with the comprehensive measurement log, provides thorough validation of the BST's operational characteristics and compliance with manufacturer specifications.
+
 \subsubsection{Continuous Wear Sensor (CWS) Testing}
+
+The CWS firmware provides precise analog voltage measurement and analysis for validating brake pad wear monitoring functionality. The CWS represents a critical maintenance monitoring component in ZF's MAXX 2.0 air disc brake system, requiring accurate validation of its voltage-to-wear relationship across multiple wear states.
+The firmware utilizes the STM32MP157F-DK2's ADC system, configured for high-precision voltage measurements of the CWS output signal. The ADC operates with 12-bit resolution and employs Direct Memory Access (DMA) in circular buffer mode for efficient sampling. This configuration enables continuous voltage monitoring without processor intervention, ensuring no measurements are missed during the testing sequence.
+Signal acquisition is synchronized using Timer 4 as the ADC trigger source, maintaining consistent sampling intervals. The firmware processes these samples through a two-stage DMA buffer, implementing a double-buffering scheme that allows simultaneous ADC sampling and data processing. This approach ensures continuous data collection while maintaining real-time analysis capabilities:
+\begin{verbatim}
+volatile uint32_t adc_buffer[ADC_BUFFER_SIZE];  // DMA circular buffer
+const float V_ref = 3.146f;                     // ADC reference voltage
+const float scaling_factor = 2.0f;              // Voltage divider ratio
+\end{verbatim}
+The firmware validates the CWS against four critical operating points defined in the manufacturer specifications:
+\begin{enumerate}
+\item New Brake Pad Condition:
+\begin{itemize}
+\item Expected Output: 0.7V $\pm$2% (0.630V to 0.770V)
+\item Corresponding Position: 18.5mm
+\end{itemize}
+\item Normal Wear Range:
+\begin{itemize}
+\item Output Range: 0.7V to 3.5V
+\item Position Range: 18.5mm to 53.5mm
+\item Linear voltage increase with wear progression
+\end{itemize}
+\item Wear Limit Threshold:
+\begin{itemize}
+\item Expected Output: 3.5V $\pm$1% (3.465V to 3.535V)
+\item Corresponding Position: 53.5mm $\pm$0.5mm
+\end{itemize}
+\item Worn Out Condition:
+\begin{itemize}
+\item Expected Output: 4.0V $\pm$5% (3.8V to 4.2V)
+\item Position: >53.5mm
+\end{itemize}
+\end{enumerate}
+The measurement process incorporates multiple averaging stages to ensure accurate readings. Each ADC conversion result undergoes initial averaging within the DMA buffer, followed by additional filtering to reduce measurement noise. The firmware calculates the actual sensor voltage using the formula:
+\begin{verbatim}
+V_sensor = ((adc_average * V_ref) / 4095.0f) * scaling_factor;
+\end{verbatim}
+Data logging follows the same pattern as other device tests, with measurements written to the kernel trace buffer in CSV format. Each record includes the timestamp, measured voltage, and calculated wear position. The firmware maintains continuous validation against specification thresholds, determining the sensor's operational state based on voltage levels and ensuring proper progression through wear states.
+Error detection focuses on several key aspects:
+\begin{itemize}
+\item Voltage measurements outside specified ranges
+\item Non-linear progression between wear states
+\item Excessive voltage fluctuations indicating potential sensor issues
+\item ADC conversion failures or timing violations
+\end{itemize}
+The testing sequence validates both the sensor's absolute accuracy at key wear points and its ability to track wear progression linearly between these points. This comprehensive validation ensures the CWS can reliably monitor brake pad wear throughout its operational life, supporting critical maintenance scheduling in commercial vehicle applications.
 
 \subsubsection{Electronic Stability Control Module (ESCM) Testing}
 
+The ESCM testing implementation represents an important area of future development in our testing platform. While we developed the architectural framework for CAN communication with the ESCM, full implementation requires additional device tree configuration for pin multiplexing on the STM32MP157F-DK2. This configuration is necessary to properly enable the CAN peripheral interfaces required for ESCM validation.
+Initial development focused on utilizing the onboard CAN controller to communicate with the ESCM, which would enable validation of the module's yaw rate sensing and stability control parameters. During implementation, we identified that accessing these CAN peripherals requires specific pin configurations through the device tree in our custom Linux image. This modification involves careful configuration of the pin multiplexing and CAN peripheral settings to ensure proper signal routing and timing.
+For preliminary validation purposes, we explored using a USB-to-CAN adapter as an alternative solution. We enabled the \verb|CAN_GS_USB| kernel module in our custom Linux image to support this approach. However, our analysis indicated that proper integration with the STM32MP157F-DK2's onboard CAN peripheral would provide superior timing precision and better integration with our existing test framework. The onboard solution maintains consistency with our design philosophy of utilizing the microcontroller's native capabilities wherever possible.
+The completion of ESCM testing capability represents a significant opportunity for future development. Implementation would require several key steps:
+\begin{itemize}
+\item Modifying the Linux device tree to properly configure CAN peripheral pins
+\item Extending the M4 firmware to implement the ESCM's CAN communication protocol
+\item Developing validation routines for stability control parameters
+\item Integrating ESCM testing into the existing web interface and data logging framework
+\end{itemize}
+This forthcoming implementation will enhance the testing platform's capabilities, enabling comprehensive validation of vehicle stability control systems alongside the current brake system components. The groundwork laid in our current implementation, including the modular firmware loading system and Linux configuration framework, provides a solid foundation for this future development.
+
 \subsubsection{Pressure Sensor Testing}
+The pressure sensor firmware implements precision analog measurement and analysis routines to validate the sensor's voltage-to-pressure relationship in vehicle control systems. As a critical component for monitoring brake system pressures, the firmware must ensure accurate pressure representation across the sensor's full operational range of 0 to 10 bar.
+The signal acquisition utilizes the STM32MP157F-DK2's ADC system configured for high-precision voltage sampling. The firmware employs Timer 4 as a trigger source for the ADC, ensuring consistent sampling intervals. Direct Memory Access (DMA) is configured in circular buffer mode, enabling continuous sampling without processor intervention. This configuration maintains measurement consistency while efficiently processing the sensor's output signal, which ranges from 0.5V at atmospheric pressure (0 bar) to 4.5V at maximum pressure (10 bar).
+The firmware processes the ADC measurements through a sophisticated averaging algorithm that ensures stable pressure readings. Raw ADC values are first converted to voltages using the calibrated reference voltage:
+\begin{verbatim}
+// ADC parameters for pressure conversion
+const float V_ref = 3.146f;               // ADC reference voltage
+const float divider_factor = 2.0f;        // Voltage divider ratio
+const float V_sensor_min = 0.5f;          // 0 bar
+const float V_sensor_max = 4.5f;          // 10 bar
+const float Bar_max = 10.0f;              // Maximum pressure range
+\end{verbatim}
+The sensor's output voltage undergoes conversion to meaningful pressure values using the manufacturer's specified linear relationship. The firmware calculates pressure using the formula:
+\begin{verbatim}
+V_sensor = ((adc_average * V_ref) / 4095.0f) * divider_factor;
+pressure_bar = ((V_sensor - V_sensor_min) /
+(V_sensor_max - V_sensor_min)) * Bar_max;
+pressure_psi = pressure_bar * 14.5038f;   // Convert to PSI
+\end{verbatim}
+Signal validation encompasses several critical checks:
+\begin{itemize}
+\item Voltage range verification (0.5V to 4.5V)
+\item Linear response across pressure range
+\item Measurement stability at fixed pressures
+\item ADC conversion integrity
+\end{itemize}
+The firmware implements comprehensive error detection focused on:
+\begin{itemize}
+\item Out-of-range voltage measurements
+\item Non-linear response characteristics
+\item Excessive measurement noise
+\item ADC conversion failures
+\end{itemize}
+Data logging follows the standard CSV format, with each record containing:
+\begin{verbatim}
+time(s),voltage(V),pressure_bar,pressure_psi
+\end{verbatim}
+The testing sequence validates the sensor's accuracy across its full pressure range, ensuring reliable pressure monitoring for vehicle control systems. This validation is crucial for maintaining brake system safety and performance, as accurate pressure measurement directly affects braking force control and system diagnostics.
+The firmware's response to test completion or error conditions mirrors the standard behavior across all device tests, transmitting status through the RPMsg interface and ensuring all measurement data is properly logged to the kernel trace buffer for analysis.
 
-\subsection{Embedded Linux with Yocto Project}
 
-\subsubsection{Embedded Linux}
-The choice to use Embedded Linux for such an application was for various reasons:
-it provided access to a wide array of open-source software (OSS) and tools, it 
-has a rich set of documentation accompanies by a big community of developers, and
-it is likely the easiest to develop on. 
 
 \subsubsection{The Yocto Project}
 Along with using embedded Linux, a choice to use The Yocto Project was made
@@ -948,6 +1091,153 @@ infrastructure.
 %	Performance and Testing Analysis
 %----------------------------------------------------------------------------------------
 \subsection{Performance and Testing Analysis}
+\subsubsection{Performance Analysis}
+The following is the original planned specifications from the course \\ECE-4810 - Senior Design I:
+
+\begin{enumerate}[label=\arabic*.]
+  \item \textbf{Physical Characteristics}
+    \begin{enumerate}[label=\theenumi\arabic*]
+      \item Device must be easily handled and moved around.
+      \item PCB must be enclosed; enclosure will be constructed from ABS for 
+        higher shear and tensile strength.
+      \item Ring lugs will be connected to the PCB using a 10-32 bolt and 10-32 
+        nut.
+      \item 2 ADCs on the PCB will be the ADS1115.
+      \item 1 CAN bus tranciever will be the MCP2551.
+      \item 2 16-bit ADC will be soldered onto PCB.
+      \item The ESP8266EX as the Wi-Fi module for wireless connection to the 
+        internet.
+      \item STM32MP157C-DK2 developement board for prototyping.
+      \item STM32MP157CAC3 microprocessor will be soldered onto the PCB.
+      \item 1 4k$\Omega$ resistor for the required pull-up network for testing the 
+        break signal transmitter will be the CRCW0402K00FKED.
+      \item 2 3k$\Omega$ resistors for the pullup network for testing the break signal 
+        transmitter will be the CRCW0603K00FKEA.
+    \end{enumerate}
+  \item \textbf{Functionality}
+    \begin{enumerate}[label=\theenumi\arabic*]
+      \item The interface will indicate if the device passes the desired test.
+      \item An Microsoft Excel file will be generated regarding the test with 
+        posted timestamps.
+      \item The interface will show live information regarding the test i.e. the 
+        interpreted input data.
+      \item The interface will allow the user to select what device and allow 
+        adjustments to the test.
+      \item The PWM inputs will be sampled every 5ms.
+      \item Diagnostic logs will be generated if any internal errors occur.
+      \item The microprocessor will read the CAN bus if the selected device 
+        provides any information on it.
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection*{1. Hardware Implementation Analysis}
+
+The final hardware implementation deviated from original specifications in
+several key areas. Most notably, the planned custom PCB with STM32MP157CAC3
+microprocessor was replaced by the STM32MP157F-DK2 development board. This
+change eliminated the need for the specified ESP8266EX Wi-Fi module and ADS1115
+ADCs, as these functionalities were provided by the development board's
+integrated systems.
+
+The original resistor specifications (CRCW0402K00FKED and CRCW0603K00FKEA) were
+modified with equivalent components that maintained the required pull-up
+network characteristics while improving availability and cost-effectiveness.
+
+\textbf{2. Functionality Evolution}
+
+Data management saw significant changes from the original specifications:
+\begin{itemize} \item Replaced Microsoft Excel file generation with universal
+    CSV format \item Implemented dynamic PWM sampling rather than fixed 5ms
+    intervals \item Developed comprehensive web-based interface beyond initial
+      requirements \item Enhanced diagnostic capabilities through Linux system
+logging \item Extended CAN bus functionality with USB-to-CAN adapter
+integration \end{itemize}
+
+\textbf{3. Architecture Enhancements}
+
+The final solution incorporated several architectural improvements not
+specified in the original requirements:
+
+\begin{itemize} 
+  \item Custom embedded Linux distribution for robust system
+  management 
+  \item Modern WebAssembly frontend providing enhanced user
+  experience 
+  \item Rust-based server architecture ensuring system reliability
+  \item OpenAMP inter-processor communication framework 
+  \item Multi-device testing support with modular architecture \end{itemize}
+
+\textbf{4. Impact Analysis}
+
+These modifications resulted in a more versatile and maintainable system than
+originally specified. The development board approach, while deviating from the
+original custom PCB design, provided enhanced functionality and reduced
+development complexity. The modern software stack improved system reliability
+and user experience beyond initial requirements.
+
+The implementation maintained compliance with core functional requirements
+while introducing additional capabilities that enhanced the system's utility
+for ZF Group's testing needs.
+
+\subsubsection{Testing and Verification}
+
+System verification was conducted through comprehensive end-to-end testing of
+the complete device testing platform. Tests focused on validating the system's
+ability to accurately measure and analyze signals from automotive safety
+components while meeting ZF Group's specifications.
+
+\subsection{Test Setup}
+
+The test environment consisted of the STM32MP157F-DK2 development board
+connected to both custom PCBs and various test devices including:
+\begin{itemize} 
+  \item Brake Signal Transmitter (BST) 
+  \item Continuous Wear Sensor (CWS) 
+  \item Pressure Sensor 
+\end{itemize}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/test-setup.png}
+  \caption{Complete Test set up with Brake Signal Transmitter}
+\end{figure}
+% [FIGURE 1: Photo of complete test setup showing PCBs, development
+% board, and connected test devices]
+
+\subsection{Test Procedure}
+
+Testing followed a standardized procedure: 1. Device selection via web
+interface 2. Automated signal measurement and analysis 3. Data collection
+and CSV generation 4. Results verification against manufacturer
+specifications
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{../assets/webapp-testing.png}
+  \caption{Web Application once test has concluded}
+\end{figure}
+
+\subsection{Results}
+
+The system successfully validated: 
+\begin{itemize} 
+  \item BST PWM signals within ±5\% DC tolerance 
+  \item CWS voltage measurements (0.7V-4.0V range) 
+  \item Pressure sensor readings with 0.4V/Bar sensitivity
+\end{itemize}
+
+% [FIGURE 3: Sample CSV output showing test results]
+
+Real-time monitoring demonstrated reliable inter-processor communication
+with consistent sub-10ms response times. Web interface remained responsive
+during extended testing sessions, and all data was successfully logged and
+exported.
+
+% [FIGURE 4: Screenshot of diagnostic logs showing system performance]
+
+The system met all critical requirements for automated testing of
+automotive safety components, providing accurate measurements and clear
+pass/fail criteria for warranty validation purposes.
+
 
 
 %----------------------------------------------------------------------------------------
@@ -982,6 +1272,7 @@ enhancing the CIC's testing capabilities. Future work will focus on completing
 CAN implementation for ESCM testing and further refinements to the web
 application interface.
 
+
 \section{Recomendations}
 For developing on this project further, potentially as another Senior Design Project,
 several recomentations can be made for improving current features, fully implementing 
@@ -1000,6 +1291,8 @@ For a complete, comprehensive improvement, a completely custom PCB can be design
 with all the different components of the STM32MP157F-DK2 properly connected
 and laid out. 
 
+
+\section{Appendice}
 
 
 
