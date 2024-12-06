@@ -14,6 +14,7 @@
 \usepackage{sectsty}
 \usepackage{url}
 \usepackage{float}
+\usepackage{fancyvrb}
 \usepackage{enumerate}
 \usepackage{enumitem}
 \usepackage{mdframed}
@@ -110,7 +111,7 @@
 
 \tableofcontents
 \newpage
-\doublespacing
+\
 %----------------------------------------------------------------------------------------
 %	PAPER BEGINS WITH ABSTRACT
 %----------------------------------------------------------------------------------------
@@ -194,7 +195,10 @@ for warranty claim validation.
 
 \subsection{High-Level System Design}
 
-\includegraphics[width=\textwidth]{../assets/block_diagram.png}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/block_diagram.png}
+  \caption{Comprehensive, High-level system block diagram}
+\end{figure}
 
 \subsection{Specifications}
 \begin{enumerate}[label=\arabic*.]
@@ -276,28 +280,11 @@ strict compliance with ZF Group's testing requirements.
 % * Inter-Processor Communication (IPC)
 %----------------------------------------------------------------------------------------
 \section{Design and Implementation}
-
-\subsection{Devices Under Test (DUT)}
-The Claims Investigation Committee's testing platform is designed to validate
-multiple critical automotive safety components from ZF's commercial vehicle
-braking systems. These devices represent key components in the braking system's
-safety chain, each serving specific functions that together, ensure reliable
-and safe vehicle operation.
-
-The testing platform currently supports four devices: the Brake Signal
-Transmitter (BST), Continuous Wear Sensor (CWS), Electronic Stability Control
-Module (ESCM), and a Pressure Sensor. Each device requires unique testing
-approaches due to their distinct communication protocols and operational
-parameters. Understanding these devices' functions and manufacturer
-specifications is crucial for implementing accurate testing procedures. 
-
-
-\subsubsection{Brake Signal Transmitter (BST)}
-The Claims Investigation Committee's testing platform is designed to validate
-multiple critical automotive safety components from ZF's commercial vehicle
-braking systems. These devices represent key components in the braking system's
-safety chain, each serving specific functions that together, ensure reliable
-and safe vehicle operation.
+\subsection{Devices Under Test (DUT)} The Claims Investigation Committee's
+testing platform is designed to validate multiple critical automotive safety
+components from ZF's commercial vehicle braking systems. These devices
+represent key components in the braking system's safety chain, each serving
+specific functions that together, ensure reliable and safe vehicle operation.
 
 The testing platform currently supports four devices: the Brake Signal
 Transmitter (BST), Continuous Wear Sensor (CWS), Electronic Stability Control
@@ -338,23 +325,23 @@ indicate brake pedal position. These signals operate at 200Hz ±10Hz and follow
 specific duty cycle relationships:
 
 \begin{itemize} \item Signal S1 initiates at 12.5\% duty cycle when the brake
-      pedal is at rest (0mm stroke), increasing linearly at 5.96\% per
-    millimeter of pedal stroke. \item Signal S2 initiates at 87.5\% duty cycle
-      when the brake pedal is at rest (0mm stroke), decreasing linearly at
-      5.96\% per millimeter of pedal stroke. \item Both signals maintain +- 5\%
-    duty cycle tolerance throughout the stroke range. \item The signals
-      intersect at approximately 6.3mm oedal stroke, with both signals at 50\%
-duty cycle. \end{itemize}
+pedal is at rest (0mm stroke), increasing linearly at 5.96\% per millimeter of
+pedal stroke. \item Signal S2 initiates at 87.5\% duty cycle when the brake
+pedal is at rest (0mm stroke), decreasing linearly at 5.96\% per millimeter of
+pedal stroke. \item Both signals maintain +- 5\% duty cycle tolerance
+throughout the stroke range. \item The signals intersect at approximately 6.3mm
+oedal stroke, with both signals at 50\% duty cycle. \end{itemize}
 
 The PWM signals are defined by several key parameters: \begin{itemize} \item
-    Amplitude varying between U\textsubscript{max} (determined by CCU pull-up
-  voltage) and U\textsubscript{min} (<1V) \item Period T = 1/f, where f is the
-    200Hz carrier frequency \item Duty cycle calculated as DC =
+Amplitude varying between U\textsubscript{max} (determined by CCU pull-up
+voltage) and U\textsubscript{min} (<1V) \item Period T = 1/f, where f is the
+200Hz carrier frequency \item Duty cycle calculated as DC =
 T\textsubscript{high}/T\textsubscript{total} \end{itemize}
 
 To ensure reliable signal integrity, the BST interface requires specific
-loading conditions: \begin{itemize} \item Pull-up resistors: 4k$\Omega$ $\pm$1\% and 3k$\Omega$
-      $\pm$1\% to 12V \item Filtering capacitors: 2.2nF ±10\% \end{itemize}
+loading conditions: \begin{itemize} \item Pull-up resistors: 4k$\Omega$
+$\pm$1\% and 3k$\Omega$ $\pm$1\% to 12V \item Filtering capacitors: 2.2nF ±10\%
+\end{itemize}
 
       The BST's implementation in Daimler's 2025 platform underscores the
       importance of accurate validation testing. As the highest volume
@@ -366,11 +353,133 @@ loading conditions: \begin{itemize} \item Pull-up resistors: 4k$\Omega$ $\pm$1\%
       and field return analysis.
 
 
-\subsubsection{Continuous Wear Sensor (CWS)}
+\subsubsection{Continuous Wear Sensor (CWS)} The Continuous Wear Sensor
+represents a critical monitoring component in ZF's MAXX 2.0 air disc brake
+generation for commercial vehicles, specifically designed for trucks and buses.
+The sensor system integrates multiple functions to provide comprehensive brake
+wear monitoring and maintenance capabilities.
+
+The primary function of the CWS centers on precise wear measurement through
+contactless sensing technology. Mounted directly on the disc brake caliper, the
+sensor monitors the adjuster position to determine the collective wear state of
+both brake pads and the brake disc rotor. This measurement is achieved through
+a sophisticated distance-to-voltage conversion system that maintains both
+linear and ratiometric characteristics, ensuring accurate wear detection
+throughout the brake system's operational life.
+
+A secondary but crucial feature of the CWS is its integrated re-adjustment
+capability. A dedicated re-adjustment screw or shaft is incorporated into the
+sensor design, enabling controlled retraction of the brake adjuster unit during
+maintenance procedures. This integration streamlines service operations while
+maintaining measurement accuracy.
+
+The sensor's output signal serves multiple critical functions within the
+Electronic Control Unit (ECU). These functions include continuous wear
+monitoring, wear limit detection, predictive brake lining service forecasting,
+wear harmonization across brake components, and comprehensive brake function
+monitoring. This multi-faceted approach ensures both safety and maintenance
+optimization.
+
+The electrical architecture of the CWS is designed for robust operation in
+commercial vehicle environments. The sensor utilizes a 3-pole BVA connector
+system with specific pin assignments:
+
+\begin{itemize} \item Supply Voltage (Us): 5V DC ±0.5V (Pin A) \item Output
+Signal (Uout): 0.7V to 4.0V DC (Pin B) \item Ground Reference (Pin C)
+\end{itemize}
+
+The sensor's output characteristics follow a precise voltage-to-wear
+relationship across four distinct operational ranges:
+
+\begin{enumerate} \item New Brake Pad Condition \begin{itemize} \item Output
+Voltage: 0.7V ±2\% (0.630V to 0.770V) \item Corresponding Position: 18.5mm
+\end{itemize} \item Normal Wear Progression \begin{itemize} \item Output Range:
+0.7V to 3.5V \item Position Range: 18.5mm to 53.5mm \item Linear voltage
+increase with wear progression \end{itemize} \item Wear Limit Threshold
+\begin{itemize} \item Output Voltage: 3.5V ±1\% (3.465V to 3.535V) \item
+Corresponding Position: 53.5mm ±0.5mm \end{itemize} \item Worn Out Condition
+\begin{itemize} \item Output Voltage: 4.0V ±5\% (3.8V to 4.2V) \item Position:
+>53.5mm \end{itemize} \end{enumerate}
+
+The electrical design incorporates multiple protection features to ensure
+reliable operation. These include reverse polarity protection up to -5.5V DC,
+short-circuit protection on the output signal, and current consumption limited
+to 25mA maximum. When integrated with the ECU, the supply voltage is typically
+pulsed rather than constant, optimizing power consumption while maintaining
+measurement accuracy.
+
+The CWS's ratiometric output characteristic ensures measurement stability
+despite supply voltage fluctuations, as the output signal maintains its
+proportional relationship to the input voltage. This design feature, combined
+with the linear response to wear progression, enables precise wear monitoring
+throughout the brake system's service life. The sensor's output is processed by
+the ECU to provide real-time wear status information, enabling proactive
+maintenance scheduling and ensuring optimal brake system performance.
+
 
 \subsubsection{Electronic Stability Control Module (ESCM)}
 
 \subsubsection{Pressure Sensor}
+
+The pressure sensor represents a critical measurement component in ZF's
+commercial vehicle control systems, serving as an actual-value transmitter for
+continuous pressure monitoring. The sensor system integrates sophisticated
+measurement technology with comprehensive protection features to ensure
+reliable operation in demanding automotive environments.
+
+The primary function of the pressure sensor centers on precise pressure
+measurement through piezo-resistive sensing technology. A silicon diaphragm
+forms the core sensing element, with measuring resistors precisely positioned
+to form a Wheatstone bridge circuit. When pressure acts upon the diaphragm, the
+resulting mechanical deformation induces proportional changes in the resistors'
+values, creating a measurable electrical signal that accurately represents the
+applied pressure relative to atmospheric conditions.
+
+The sensor's signal processing capabilities represent a crucial aspect of its
+design. The bridge output signal undergoes internal amplification and
+calibration processes, with integrated temperature compensation ensuring
+measurement stability. This sophisticated processing approach enables accurate
+pressure monitoring across varying environmental conditions while maintaining
+signal integrity throughout the measurement range.
+
+The sensor's functionality extends beyond basic pressure measurement through
+comprehensive protection features. The design incorporates reverse polarity
+protection, overvoltage protection, and safeguards against high-frequency
+disturbances. Combined with short-circuit protection, these features ensure
+reliable operation in electro-pneumatic control systems where electrical noise
+and power fluctuations are common challenges.
+
+The electrical architecture of the pressure sensor is designed for robust
+operation in commercial vehicle environments. The sensor utilizes a
+standardized three-pole connector system with specific pin assignments:
+
+\begin{itemize} \item Supply Voltage (UB): 8V to 32V DC (Pin 1) \item Output
+Signal (Uout): 0.5V to 4.5V DC (Pin 2) \item Ground Reference (Pin 3)
+\end{itemize}
+
+The sensor's output characteristics follow a precise voltage-to-pressure
+relationship with clearly defined parameters:
+
+\begin{itemize} \item Offset voltage: 0.5V at atmospheric pressure (0 bar)
+\item Linear sensitivity: 0.4V per bar across measurement range \item Maximum
+output: 4.5V at full scale \item Characteristic limit: 4.7V ±100mV
+\end{itemize}
+
+The electrical design incorporates specific requirements for signal integrity
+and protection. The output circuit requires minimum load impedances of 5.1k$\Omega$
+to
+ground and 68k$\Omega$ to supply voltage, ensuring reliable signal transmission.
+Current consumption is limited to 15mA maximum, while operational readiness is
+achieved within 10 milliseconds of power application, enabling rapid pressure
+monitoring in dynamic vehicle systems.
+
+The pressure sensor's ratiometric output characteristic ensures measurement
+stability despite supply voltage fluctuations. This design feature, combined
+with the sensor's broad operating voltage range and comprehensive protection
+features, enables reliable pressure measurement in demanding automotive
+applications. The sensor's output provides critical pressure information to the
+vehicle's control systems, supporting safe and efficient operation of pneumatic
+and hydraulic systems in commercial vehicles.
 
 \subsection{Custom Printed Circuit Board for Device Interfacing and Power Management}
 This project involved the development of schematic designs and custom PCBs to
@@ -601,16 +710,149 @@ access to the microcontroller during testing or maintenance.
 \subsubsection{Pressure Sensor Testing}
 
 \subsection{Embedded Linux with Yocto Project}
+
+\subsubsection{Embedded Linux}
 The choice to use Embedded Linux for such an application was for various reasons:
 it provided access to a wide array of open-source software (OSS) and tools, it 
 has a rich set of documentation accompanies by a big community of developers, and
 it is likely the easiest to develop on. 
 
-\subsection{Interprocessor Communication with OpenAMP Project}
+\subsubsection{The Yocto Project}
+Along with using embedded Linux, a choice to use The Yocto Project was made
+as it provided the best control over creating a custom Linux distribution to
+deploy as an image. It handles the metadata that is necessary to make a custom
+distribution. ST provides a board-support-package (BSP) layer for developers 
+so that necessary hardware, kernel configurations, and device trees are configured
+for propper booting.
 
-\subsection{Custom API Web Server in Rust}
+\subsubsection{Required Software}
+In the creation of a custom layer of metadata, many configurations and pieces of software was kept in mind.
+\verb+wpa_supplicant+ was the first piece of software that was installed and built, as it is a wi-fi access client
+and fits the standard of IEEE 802.1 for port-based network access control. Another essential piece of software
+for this solution was a webserver, which this case \verb+nginx+ as it served to be small, simple, performant, and most importantly
+allowed dynamic content and Web Assembly applications to be ran on the served content. Along with these, \verb+dhcp+ or 
+dynamic host configuration protocol was configured for allowing the connection to any network and have an IPv4 configured.
+The \verb+systemd+ init system was used for automatically starting necessary services on boot.
+
+\subsubsection{Building Custom Software}
+Software written specifically for this project such as the Web Assembly Application required specific installation
+instructions in order to be deployed properly on the target image. An attempt was made to use the build system to
+fetch the source of the Web Assembly application to build, but many issues and errors arose from such, and it was
+determined that simply fetching the generated binary and associated files was the fastest way. From then it was simply installed
+to the appropriate directory on the target device, as per the build 'recipe' by The Yocto Project.
+
+The Custom API Rust Server was build through a provided metadata layer, \verb+meta-rust-bin+ where it contained
+a Rust cross compiler that can build a generated 'recipe' by Rust's \verb+cargo+ tool by the \verb+bitbake+ crate. From
+then it was simply installed to be recognized as a recognized binary on the linux filesystem as \verb+zf-server+.
+
+The Cortex-M4 firmware were also simply installed as files, pulled from a git repository. It was installed with
+an associated script to properly load the firmware to the Cortex-M4.
+
+\begin{figure}[H]
+  \includegraphics[width=0.75\textwidth]{../assets/layers.png}
+  \caption{visualization of metadata layers under the Yocto Project}
+\end{figure}
+
+
+\subsection{Inter-Processor Communication with OpenAMP Project}
+The STM32MP157F-DK2 contains a single system-on-chip (SoC) to house both processors (Cortex-A7 and Cortex-M4). 
+Due to this locality, no traditional serial communication is allowed, therefore communication must be done through
+some shared memory. 
+
+\subsubsection{The OpenAMP (Asymmetric Multi-Processing) Project}
+The OpenAMP Project is a project that seeks to standardized heterogenous architecture communication. Such
+is done through a standard communication protocol of shared memory between the application processor 
+and the peripheral processor. Both ends use the \verb+virtio+, which serves as a standard of communication between
+virtual devices.
+
+\subsubsection{Cortex-A7 (Linux)}
+The virtual device created on the end of the Cortex-A7 is the file \verb+/dev/ttyRPMSGx+, where x
+can be any number starting at 0 to however many are defined to be opened. This file serves as a bridge of
+communication to the peripheral processor as writing to the file sends a message and reading from the file
+recieves the message. 
+
+\subsubsection{Cortex-M4 (Microcontroller)}
+On the Cortex-M4 an additional layer of abstraction was used as it was provided by 
+ST's library for development, \verb+virt_uart+ where it treated communication as if it were a UART
+device. Messages would be received on the abstraction of UART and can be interpreted as a normal \verb+char*+
+type in C code. 
+
+\subsubsection{Kernel Trace Logging}
+Additionally, this opened up addtional resources for the Cortex-M4 to access, namely a kernel trace log.
+The firmware is now able to log information directly into the Linux filesystem through the kernel in real-time.
+Because of this, when data is measured on the firmware, it is simply logged and latter is saved, to be served as 
+a CSV file.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{../assets/ipc.drawio.png}
+  \caption{Diagram of how communication on the two processors is performed}
+\end{figure}
 
 \subsection{Web Assembly Application using the Yew framework}
+\subsubsection{Rust Programming Language}
+Before describing the web application, the Rust Programming Language needs to be
+mentioned first as it is a relatively novel language compared to most languages
+used for common application. The Rust Programming language serves to be a safe alternative to
+low-level languages like C while still performing near, or as well as C. It is a compiled language that
+uses a LLVM backend (clang or anything not GNU). It is commonly being looked at as an alternative more
+and more as it becomes more used. The use of it in this project aims to push this potential to
+one day serve as a replacement to the C programming language.
+
+\subsubsection{Web Assembly}
+Web Assembly is another feature in the web application that is far more novel. It exists to solve the slow
+runtime of Javascript by using a binary format executable where a script (Javascript) would have normally been used.
+A common language to be compiled into Web Assembly is Rust as Rust does not have a grabage collector, which greatly
+increases the compatability of being used as a Web Assembly binary. In this case, the Yew framework is used to develop
+the entire Web Assembly application.
+
+\subsection{User Interface}
+The user interface (UI) is kept simple to remove ambiguity and mantain focus on the functionality. 
+The user is greeted with a button to select a device with a button, and the UI updates depending on which the
+user has clicked on. Specifically for the BST, an option to use the with the string potentiometer is provided, as this
+affects how the firmware tests the DUT. Once the user clicks the "Start test" button, an HTTP request is sent
+to the web server to begin the test. The web appliation polls the server for the test completion. Once the web application receives 
+the response that the test has been completed, the UI is updated to reflect either a pass or fail, with a new button
+appearing to download the associated CSV file.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{../assets/webapp.png}
+  \caption{Image of web application with drop down menu for different devices}
+\end{figure}
+
+\subsection{Custom API Web Server in Rust}
+\subsubsection{Designing Custom API}
+The Web server was designed not follow any standard API as it served to be unecessary. The server will only ever interact with
+the specific associated web application and will not need to follow any standards for response codes. For this reason, all responses
+sent by the web server are in pure bytes and unserialized.
+
+\subsubsection{Loading Firmware}
+The server uses the \verb+warp+ Rust crate to ensure the correct request is being handled. 
+Once the information of a device is recieved for a test to start, the server
+determines which device test firmware to load into the Cortex-M4. Once loaded,
+the server checks \verb+/dev/ttyRPMSG0+ to see if it exists, as this confirms whether or not 
+the firmware successfuly opens the bridge for Inter-processor communication. 
+
+\subsubsection{Saving CSV Data}
+Once testing, the server polls the firmware every 500ms for completion. Once
+it receives a message it is complete, the firmware saves the kernel trace log under
+\verb+/sys/kernel/debug/remoteproc/remoteproc0/trace+ as \verb+<device name>-data.csv+ and
+is available for download as a path request on the web application.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{../assets/server1.png}
+  \includegraphics[width=0.75\textwidth]{../assets/server2.png}
+  \caption{Console logging of server}
+\end{figure}
+
+\subsection{Comprehensive Software Interaction Diagram}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{../assets/software_stack.drawio.png}
+  \caption{Comprehensive diagram of different platforms interacting from web-browser to Cortex-M4}
+\end{figure}
 
 %----------------------------------------------------------------------------------------
 %	Design Considerations 
@@ -756,7 +998,7 @@ by implementing pin-multiplexing on the Yocto device tree.
 
 For a complete, comprehensive improvement, a completely custom PCB can be designed 
 with all the different components of the STM32MP157F-DK2 properly connected
-and laid out, or completely different parts. This alone would be a giant project.
+and laid out. 
 
 
 
